@@ -1,0 +1,68 @@
+{% extends 'core/base.html' %}
+{% block title %}Home{% endblock title%}
+
+{% block main_content %}
+
+<section class="container">
+    <div class="row justify-content-center mt-5 text-center text-white ">
+        <div>
+            <h3>CRUD Project in python django</h3>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div>
+            <a href="{% url 'add-student' %}" class="btn btn-primary float-end">Add</a>
+            <form action="{" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input type="file"
+                     title="Upload excel file"
+                     name="excel_file"
+                     style="border: 1px solid black; padding: 5px;width:100%; max-width:20rem;"
+                     required="required"
+                     >
+              <p style="margin-bottom: 2rem; margin-left: 16rem; margin-top: -2.4rem">
+              <input type="submit"
+                     value="Upload"
+                     style="border: 1px solid black; padding: 5px;"
+                     >
+              </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-1 text-center text-white ">
+        <table class="table table-dark table-striped">
+            <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Roll</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+
+                {% for stud in studata %}
+                  <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{stud.name}}</td>
+                    <td>{{stud.roll}}</td>
+                    <td>{{stud.city}}</td>
+                    <td>
+                      <form action="{% url 'delete-student' %}" method='POST'>
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value={{stud.id}}>
+                        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+        </table>
+    </div>
+
+</section>
+
+{% endblock main_content %}
